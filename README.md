@@ -23,10 +23,11 @@
 ## Pembagian subnet
 </br><img src="img/subnet.png?raw=true" alt="Alt text" title="1a" width="700">
 
+
 ## Konfigurasi 
 
 -   Aura
-    ```
+   ```
     auto eth0
     iface eth0 inet dhcp
 
@@ -82,7 +83,6 @@
 
     up route add -net 0.0.0.0 netmask 0.0.0.0 gw 192.176.14.132
     ```
-
 -   Frieren
     ```
     auto lo
@@ -331,10 +331,6 @@ INTERFACES="eth0 eth1 eth2 eth3"
 OPTIONS=""
 ' > /etc/default/isc-dhcp-relay
 
-# Jangan lupa uncomment 
-# nano /etc/sysctl.conf
-# net.ipv4.ip_forward=1
-
 service isc-dhcp-relay restart
 ```
 
@@ -364,3 +360,5 @@ Listen 443
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet' > /etc/apache2/ports.conf
 ```
+
+
