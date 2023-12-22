@@ -21,7 +21,7 @@
 </br><img src="img/tree2.png?raw=true" alt="Alt text" title="1a" width="700">
 
 ## Pembagian subnet
-</br><img src="img/subnet.png?raw=true" alt="Alt text" title="1a" width="700">
+</br><img src="img/subnet2.png?raw=true" alt="Alt text" title="1a" width="700">
 
 
 ## Konfigurasi 
@@ -307,7 +307,7 @@ subnet 192.176.8.0 netmask 255.255.252.0 {
 subnet 192.176.14.0 netmask 255.255.255.128 {
   range 192.176.14.3 192.176.14.126;
   option routers 192.176.14.1;
-  option broadcast-address 192.176.13.255;
+  option broadcast-address 192.176.14.127;
   option domain-name-servers 192.176.1.110;
   default-lease-time 720;
   max-lease-time 7200;
@@ -440,19 +440,45 @@ iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source "$IPETH0" -s 192.176.
   ```
 - Testing
   ```
-  curl 192.173.4.2:80
-  curl 192.173.1.118:443
+  curl 192.176.8.2:80
+  curl 192.176.14.138:443
   ```
 - Result
+  </br><img src="img/7.png?raw=true" alt="Alt text" title="5b" width="500">
+
+
 
 ### 8. Karena berbeda koalisi politik, maka subnet dengan masyarakat yang berada pada Revolte dilarang keras mengakses WebServer hingga masa pencoblosan pemilu kepala suku 2024 berakhir. Masa pemilu (hingga pemungutan dan penghitungan suara selesai) kepala suku bersamaan dengan masa pemilu Presiden dan Wakil Presiden Indonesia 2024.
-```
-iptables -A INPUT -p tcp --dport 80 -s 192.176.14.144/30 -m time --datestart 2023-12-22 --datestop 2024-02-15 -j DROP
-```
+- Konfigurasi
+  ```
+  iptables -A INPUT -p tcp --dport 80 -s 192.176.14.144/30 -m time --datestart 2023-12-22 --datestop 2024-02-15 -j DROP
+  ```
+- Result
+  Waktu pemilu
+  </br><img src="img/8a.png?raw=true" alt="Alt text" title="5b" width="500">
+  </br>Bukan Waktu Pemilu
+  </br><img src="img/8b.png?raw=true" alt="Alt text" title="5b" width="500">
+  </br>Client lain
+  </br><img src="img/8c.png?raw=true" alt="Alt text" title="5b" width="500">
+
 
 
 ### 9. Sadar akan adanya potensial saling serang antar kubu politik, maka WebServer harus dapat secara otomatis memblokir  alamat IP yang melakukan scanning port dalam jumlah banyak (maksimal 20 scan port) di dalam selang waktu 10 menit. 
 (clue: test dengan nmap)
+- Konfigurasi
+  ```
+  iptables -N portscan
+
+  iptables -A INPUT -m recent --name portscan --update --seconds 600 --hitcount 20 -j DROP
+  iptables -A FORWARD -m recent --name portscan --update --seconds 600 --hitcount 20 -j DROP
+
+  iptables -A INPUT -m recent --name portscan --set -j ACCEPT
+  iptables -A FORWARD -m recent --name portscan --set -j ACCEPT
+  ```
+
+- Result
+
+
 ### 10. Karena kepala suku ingin tau paket apa saja yang di-drop, maka di setiap node server dan router ditambahkan logging paket yang di-drop dengan standard syslog level. 
 
 
