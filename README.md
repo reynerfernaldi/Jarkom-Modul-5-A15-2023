@@ -477,19 +477,21 @@ iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source "$IPETH0" -s 192.176.
   ```
 
 - Result
+  
 ![image](https://github.com/reynerfernaldi/Jarkom-Modul-5-A15-2023/assets/90272678/ce73f4a9-5a4a-4b9d-b2db-506030f5be64)
 
 
 ### 10. Karena kepala suku ingin tau paket apa saja yang di-drop, maka di setiap node server dan router ditambahkan logging paket yang di-drop dengan standard syslog level. 
 
-    ```
+```
         iptables -N LOGGING
         iptables -A INPUT -j LOGGING
         iptables -A OUTPUT -j LOGGING
         iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables-Dropped: " --log-level 4
         iptables -A INPUT -j LOG --log-prefix "Dropped packet: " --log-level 4
-  ```
+```
 
 Dari _running_ perintah di atas akhirnya bisa dilihat syslog sebagai berikut
+
 ![image](https://github.com/reynerfernaldi/Jarkom-Modul-5-A15-2023/assets/90272678/bc8ed482-c95b-49d0-925b-ad0fd3ea1024)
 
